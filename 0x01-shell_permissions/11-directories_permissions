@@ -1,0 +1,2 @@
+#!/bin/bash
+chmod -R 770 /alx-system_engineering-devops/
