@@ -2,10 +2,11 @@
 # This script displays the content of the current directory in a list format
 # where only the part of the name after the first dash is displayed
 
-for file in *
+for file in *;
 do
-    if [[ ! $file =~ ^\..* ]]
+    if [[ ! $file == .* ]]
     then
-        echo ${file#*-}
+        a="${file#*-}"
+		echo "$a"
     fi
 done
