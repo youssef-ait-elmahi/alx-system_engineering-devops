@@ -1,18 +1,14 @@
 #!/usr/bin/env bash
 # This script is displaying "Best School" 10 times
 hour=0
-minute=1
-count=1
-
-while [ $hour -lt 13 ] && [ $minute -lt 60 ]
+while [ $hour -le 12 ]
 do
-    printf "%02d:%02d\n" $hour $minute
-
-    count=$((count+1))
-    minute=$((minute+1))
-
-    if [ $minute -eq 60 ]; then
-        minute=0
-        hour=$((hour+1))
-    fi
-done | head -n 70
+    echo "Hour: $hour"
+    minute=1
+    while [ $minute -le 59 ]
+    do
+        echo $minute
+        minute=$((minute+1))
+    done
+    hour=$((hour+1))
+done
