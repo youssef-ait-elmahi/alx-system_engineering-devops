@@ -12,6 +12,6 @@ if [ -e "school" ]; then
     if [ -f "school" ]; then
         echo "school is a regular file"
     fi
-elsej
+else
     echo "school does not exist"
 fi
