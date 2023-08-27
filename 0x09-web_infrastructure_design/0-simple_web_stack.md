@@ -20,3 +20,9 @@ A database stores all the data necessary for running the website or application.
 
 ## Server-Client Communication
 Servers communicate with client computers using various protocols. For web servers, this is typically HTTP (Hypertext Transfer Protocol) or HTTPS (HTTP Secure) if encryption is needed.
+
+SPOF (Single Point of Failure): This refers to a part of a system that, if it fails, will stop the entire system from working. These are undesirable in any system with a goal of high availability or reliability, be it a business practice, software application, or other industrial system.
+
+Downtime when maintenance needed (like deploying new code web server needs to be restarted): This is a period when the system (a web server in this case) is unavailable or offline. This often happens during maintenance tasks like software updates, deploying new code, etc. During this time, the server may need to be restarted causing service interruption.
+
+Cannot scale if too much incoming traffic: This refers to a system’s inability to handle increased load. If a server receives more traffic than it can handle, it may become slow or unresponsive. To prevent this, systems can be designed to scale, either by adding more resources (scaling up), or by adding more servers (scaling out).
