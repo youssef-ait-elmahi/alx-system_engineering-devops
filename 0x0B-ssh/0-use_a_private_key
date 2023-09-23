@@ -1,3 +1,5 @@
 #!/bin/bash
 
+# This script connects to the server using the private key ~/.ssh/school
+# with the user ubuntu 
 ssh -i ~/.ssh/school ubuntu@52.91.147.26
