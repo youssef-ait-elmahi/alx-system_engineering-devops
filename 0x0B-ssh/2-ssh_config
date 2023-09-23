@@ -1,0 +1,6 @@
+# Disable password authentication for all hosts
+# and specify the private key file for authentication
+
+Host *
+      PasswordAuthentication no
+      IdentifyFile ~/.ssh/school
