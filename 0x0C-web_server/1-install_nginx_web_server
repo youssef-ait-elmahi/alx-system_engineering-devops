@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# This script configures a new Ubuntu machine
-
-sudo apt-get -y update
-sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-echo 'Hello World!' > /var/www/html/index.nginx-debian.html
-sudo service nginx start
+# Install nginx web server
+apt-get update
+apt-get install -y nginx
+# Make nginx listen on port 80
+sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+# Create a custom HTML file
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+# Restart nginx service
+service nginx restart
