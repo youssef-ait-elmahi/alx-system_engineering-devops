@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# Create custom HTTP header
+#Install nginx web server and Redirection
+custom_header="add_header X-Served-By \$hostname"
 
-apt-get -y update
-apt-get -y install nginx
+sudo apt-get update
+sudo apt-get install -y nginx
 sudo sh -c 'echo "Hello World!" > /var/www/html/index.nginx-debian.html'
-sed -i "46i rewrite ^/redirect_me https://www.youtube.com/watch?v=xZIwIoekjgw;" /etc/nginx/sites-available/default
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html > /dev/null
-sed -i "46i error_page 404 /custom_404.html;" /etc/nginx/sites-available/default
-sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOSTNAME\";/" /etc/nginx/nginx.conf
-service nginx restart
+sudo sed -i '/^}$/i \ \n\tlocation \/redirect_me {return 301 https:\/\/www.youtube.com\/watch?v=xZIwIoekjgw;}' /etc/nginx/sites-available/default
+sudo sed -i '/^}$/i \ \n\tlocation @404 {return 404 "Ceci n'\''est pas une page\\n";}' /etc/nginx/sites-available/default
+sudo sed -i 's/=404/@404/g' /etc/nginx/sites-available/default
+sudo sed -i "0,/location \/ {/s/location \/ {/&\n\t\t$custom_header;/" /etc/nginx/sites-available/default
+sudo service nginx restart
