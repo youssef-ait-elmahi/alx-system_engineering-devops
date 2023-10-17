@@ -1,11 +1,4 @@
 #!/usr/bin/env bash
-# Check if password is supplied
-if [ -z "$1" ]
-then
-    echo "Please supply the MySQL root password as an argument."
-    exit 1
-fi
-
 # Set the date format for the backup file
 date=$(date +"%d-%m-%Y")
 
