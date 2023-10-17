@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Check if password is supplied
+if [ -z "$1" ]
+then
+    echo "Please supply the MySQL root password as an argument."
+    exit 1
+fi
+
+# Set the date format for the backup file
+date=$(date +"%d-%m-%Y")
+
+# Dump all databases into a sql file
+mysqldump -u root -p"$1" --all-databases > backup.sql
+
+# Compress the sql file into a tar.gz archive
+tar -czvf "$date.tar.gz" backup.sql
+
+# Remove the sql file
+rm backup.sql
+
+echo "Backup created: $date.tar.gz"
