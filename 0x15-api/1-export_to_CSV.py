@@ -24,7 +24,7 @@ if __name__ == "__main__":
         for task in todos:
             writer.writerow([
                 user_id,
-                user.get('name'),
+                user.get('username'),
                 task.get('completed'),
                 task.get('title')
             ])
