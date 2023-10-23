@@ -1,35 +1,40 @@
 #!/usr/bin/python3
-"""Write a Python script that, using this REST API,"""
+"""Gather data from an API"""
 import requests
 import sys
 
 
-def get_todo_list_progress(employee_id):
-    # Fetch employee data
-    employee_response = requests.get(
-            f'https://jsonplaceholder.typicode.com/users/{employee_id}')
-    employee_data = employee_response.json()
-    employee_name = employee_data['name']
-
-    # Fetch todo data
-    todo_response = requests.get(
-            f'https://jsonplaceholder.typicode.com/todos?userId={employee_id}')
-    todo_data = todo_response.json()
-
-    # Calculate progress
-    total_tasks = len(todo_data)
-    done_tasks = len([task for task in todo_data if task['completed']])
-    done_task_titles = [task['title'] for task in todo_data if task
-                        ['completed']]
-
-    # Print progress
-    print(
-            f'Employee {employee_name} is done with tasks'
-            f'({done_tasks}/{total_tasks}):'
-            )
-    for title in done_task_titles:
-        print('\t ' + title)
-
-
 if __name__ == "__main__":
-    get_todo_list_progress(int(sys.argv[1]))
+    if len(sys.argv) < 2:
+        print('Usage: {} <employee ID>'.format(sys.argv[0]))
+        sys.exit(1)
+
+    employee_id = sys.argv[1]
+    user_url = "https://jsonplaceholder.typicode.com/users/{}".format(
+        employee_id)
+    todos_url = "https://jsonplaceholder.typicode.com/users/{}/todos".format(
+        employee_id)
+
+    user_response = requests.get(user_url)
+    todos_response = requests.get(todos_url)
+
+    if user_response.status_code != 200:
+        print("Error: Unable to fetch user data")
+        sys.exit(1)
+
+    if todos_response.status_code != 200:
+        print("Error: Unable to fetch todos data")
+        sys.exit(1)
+
+    user_data = user_response.json()
+    todos_data = todos_response.json()
+
+    total_tasks = len(todos_data)
+    done_tasks = len([task for task in todos_data if task.get('completed')])
+
+    print("Employee {} is done with tasks({}/{}):".format(
+        user_data.get('name'), done_tasks, total_tasks))
+
+    for task in todos_data:
+        if task.get('completed'):
+            print("\t {}".format(task.get('title')))
