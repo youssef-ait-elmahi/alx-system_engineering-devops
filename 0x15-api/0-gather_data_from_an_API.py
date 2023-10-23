@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-import requests
-import sys
 """Write a Python script that, using this REST API, for a given employee ID,
 returns information about his/her TODO list progress."""
+import requests
+import sys
 
 
 def get_todo_list_progress(employee_id):
