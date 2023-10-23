@@ -5,36 +5,32 @@ import sys
 returns information about his/her TODO list progress."""
 
 
-def get_data(url):
-    response = requests.get(url)
-    if response.status_code != 200:
-        print("Error: Unable to fetch data")
-        sys.exit(1)
-    return response.json()
+def get_todo_list_progress(employee_id):
+    # Fetch employee data
+    employee_response = requests.get(
+            f'https://jsonplaceholder.typicode.com/users/{employee_id}')
+    employee_data = employee_response.json()
+    employee_name = employee_data['name']
 
+    # Fetch todo data
+    todo_response = requests.get(
+            f'https://jsonplaceholder.typicode.com/todos?userId={employee_id}')
+    todo_data = todo_response.json()
 
-def main(employee_id):
-    user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    base_url = "https://jsonplaceholder.typicode.com/users"
-    todos_endpoint = "/{}/todos"
-    todos_url = f"{base_url}{todos_endpoint.format(employee_id)}"
+    # Calculate progress
+    total_tasks = len(todo_data)
+    done_tasks = len([task for task in todo_data if task['completed']])
+    done_task_titles = [task['title'] for task in todo_data if task
+                        ['completed']]
 
-    user_data = get_data(user_url)
-    todos_data = get_data(todos_url)
-
-    total_tasks = len(todos_data)
-    done_tasks = len([task for task in todos_data if task.get('completed')])
-
-    print(f"Employee {user_data.get('name')} is done with tasks\
-        ({done_tasks}/{total_tasks}):")
-    for task in todos_data:
-        if task.get('completed'):
-            print("\t {}".format(task.get('title')))
+    # Print progress
+    print(
+            f'Employee {employee_name} is done with tasks'
+            f'({done_tasks}/{total_tasks}):'
+            )
+    for title in done_task_titles:
+        print('\t ' + title)
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print('Usage: {} <employee ID>'.format(sys.argv[0]))
-        sys.exit(1)
-
-    main(sys.argv[1])
+    get_todo_list_progress(int(sys.argv[1]))
