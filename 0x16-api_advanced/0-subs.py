@@ -4,6 +4,7 @@
 subreddit is given, the function should return 0."""
 import requests
 
+
 def number_of_subscribers(subreddit):
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
     headers = {'User-Agent': 'custom'}
